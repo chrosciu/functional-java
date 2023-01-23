@@ -4,8 +4,10 @@ package info.solidsoft.java8;
 import info.solidsoft.java8.util.LoremIpsum;
 import org.junit.jupiter.api.Test;
 
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
@@ -40,7 +42,7 @@ public class J08_NewMapMethodsTest {
         Map<String, Integer> wordCount = LoremIpsum.wordCount(loremIpsum);
 
         //when
-        int totalWords = 0;  //wordCount...
+        int totalWords = wordCount.values().stream().mapToInt(v -> v).sum();
 
         //then
         assertThat(totalWords).isEqualTo(441);
@@ -52,7 +54,11 @@ public class J08_NewMapMethodsTest {
         Map<String, Integer> wordCount = LoremIpsum.wordCount(loremIpsum);
 
         //when
-        final Set<String> fiveMostCommon = null;   //wordCount...
+        final Set<String> fiveMostCommon = wordCount.entrySet().stream()
+                .sorted(Comparator.comparingInt(entry -> -entry.getValue()))
+                .limit(5)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
 
         //then
         assertThat(fiveMostCommon).containsOnly("eget", "sit", "amet", "et", "sed");
@@ -64,7 +70,10 @@ public class J08_NewMapMethodsTest {
         Map<String, Integer> wordCount = LoremIpsum.wordCount(loremIpsum);
 
         //when
-        final Set<String> uniqueWords = null;       //wordCount...
+        final Set<String> uniqueWords = wordCount.entrySet().stream()
+                .filter(entry -> entry.getValue() == 1)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
 
         //then
         assertThat(uniqueWords)

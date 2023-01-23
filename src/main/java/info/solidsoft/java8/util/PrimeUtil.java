@@ -12,7 +12,7 @@ public class PrimeUtil {
      */
     @SuppressWarnings({"OptionalGetWithoutIsPresent"})  //There has to some prime number sooner or later
     public static long nextPrimeAfter(long x) {
-        throw new UnsupportedOperationException("nextPrimeAfter()");
+        return LongStream.iterate(x + 1, n -> n + 1).filter(PrimeUtil::isPrime).findFirst().getAsLong();
     }
 
     /**
@@ -21,6 +21,6 @@ public class PrimeUtil {
      * @see LongStream#range(long, long)
      */
     public static boolean isPrime(long x) {
-        throw new UnsupportedOperationException("isPrime()");
+        return LongStream.range(2, x).noneMatch(n -> x % n == 0);
     }
 }

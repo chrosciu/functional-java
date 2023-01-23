@@ -4,6 +4,7 @@ import info.solidsoft.java8.holidays.Holidays;
 import info.solidsoft.java8.holidays.PolishHolidays;
 import org.junit.jupiter.api.Test;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Period;
@@ -30,7 +31,11 @@ public class J08_LocalDateTest {
     @Test
     public void shouldCountNumberOfHolidaysIn2014() {
         //given
-        final Stream<LocalDate> holidaysIn2014 = null;
+        final Stream<LocalDate> holidaysIn2014 = Stream.iterate(
+                LocalDate.of(2014, JANUARY, 1),
+                date -> date.isBefore(LocalDate.of(2015, JANUARY, 1)),
+                date -> new PolishHolidays().nextHolidayAfter(date)
+        );
 
         //when
         final long numberOfHolidays = holidaysIn2014.count();
@@ -48,7 +53,7 @@ public class J08_LocalDateTest {
         final LocalDate today = LocalDate.of(2014, MAY, 12);
 
         //when
-        final LocalDate previousWednesday = today;
+        final LocalDate previousWednesday = today.with(TemporalAdjusters.previous(DayOfWeek.WEDNESDAY));
 
         //then
         assertThat(previousWednesday).isEqualTo(LocalDate.of(2014, MAY, 7));
@@ -67,7 +72,7 @@ public class J08_LocalDateTest {
     }
 
     private TemporalAdjuster nextHoliday() {
-        throw new UnsupportedOperationException("nextHoliday()");
+        return TemporalAdjusters.ofDateAdjuster(localDate -> new PolishHolidays().nextHolidayAfter(localDate));
     }
 
     /**
@@ -85,8 +90,8 @@ public class J08_LocalDateTest {
         final ZonedDateTime birth = ZonedDateTime.of(dateOfBirth, timeOfBirth, ZoneId.of("America/Los_Angeles"));
 
         //when
-        final ZonedDateTime halfBillionSecondsLater = birth;    //?
-        final int hourInTokyo = halfBillionSecondsLater.getHour();
+        final ZonedDateTime halfBillionSecondsLater = birth.plusSeconds(500_000_000);    //?
+        final int hourInTokyo = halfBillionSecondsLater.withZoneSameInstant(ZoneId.of("Asia/Tokyo")).getHour();
 
         //then
         assertThat(halfBillionSecondsLater.toLocalDate()).isEqualTo(LocalDate.of(2011, NOVEMBER, 27));

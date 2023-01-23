@@ -4,10 +4,10 @@ import info.solidsoft.java8.people.Person;
 import info.solidsoft.java8.people.PersonDao;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Offset.offset;
@@ -24,7 +24,7 @@ public class J09_CollectorsTest {
     public void calculateAverageHeight() {
         final List<Person> people = dao.loadPeopleDatabase();
 
-        final Double averageHeight = 0.0; // people.stream().
+        final Double averageHeight = people.stream().collect(Collectors.averagingDouble(Person::getHeight));
 
         assertThat(averageHeight).isEqualTo(174, offset(0.5));
     }
@@ -33,7 +33,8 @@ public class J09_CollectorsTest {
     public void partitionByPeopleAboveAndBelowOrEqual180CmHeight() {    //One group: above, second: below or equal 180
         final List<Person> people = dao.loadPeopleDatabase();
 
-        final Map<Boolean, List<Person>> peopleByHeight = Collections.emptyMap(); // people.stream().
+        final Map<Boolean, List<Person>> peopleByHeight = people.stream()
+                .collect(Collectors.partitioningBy(person -> person.getHeight() > 180));
 
         final List<Person> tallPeople = peopleByHeight.get(true);
         assertThat(tallPeople).hasSize(33);
@@ -46,7 +47,8 @@ public class J09_CollectorsTest {
     public void groupPeopleByWeight() {
         final List<Person> people = dao.loadPeopleDatabase();
 
-        final Map<Integer, List<Person>> peopleByWeight = Collections.emptyMap(); // people.stream().
+        final Map<Integer, List<Person>> peopleByWeight = people.stream()
+                .collect(Collectors.groupingBy(Person::getWeight));
 
         assertThat(peopleByWeight.get(46)).hasSize(1);
         assertThat(peopleByWeight.get(70)).hasSize(2);
@@ -57,7 +59,7 @@ public class J09_CollectorsTest {
     public void weightStatistics() {
         final List<Person> people = dao.loadPeopleDatabase();
 
-        final IntSummaryStatistics stats = new IntSummaryStatistics(); // people.stream().
+        final IntSummaryStatistics stats = people.stream().collect(Collectors.summarizingInt(Person::getWeight));
 
         assertThat(stats.getCount()).isEqualTo(137);
         assertThat(stats.getMin()).isEqualTo(46);

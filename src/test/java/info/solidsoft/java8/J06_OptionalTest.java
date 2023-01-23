@@ -81,7 +81,11 @@ public class J06_OptionalTest {
      * Hint: use map/filter/flatMap/ifPresent methods from Optional class.
      */
     private Optional<String> tryLookupAddressById(int id) {
-        return Optional.empty(); // tryFindPerson(id).
+        return tryFindPerson(id)
+                .filter(p -> p.getSex() == MALE)
+                .flatMap(this::tryLookupAddress)
+                .filter(a -> !a.isEmpty())
+                .map(String::trim);
     }
 
     @Test

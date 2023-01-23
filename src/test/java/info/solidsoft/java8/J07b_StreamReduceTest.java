@@ -1,7 +1,6 @@
 package info.solidsoft.java8;
 
 import info.solidsoft.java8.util.StreamTestFixture.StreamParallelism;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -9,11 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static info.solidsoft.java8.util.StreamTestFixture.PARALLEL_TEST_CASE_NAME_FORMAT;
 import static info.solidsoft.java8.util.StreamTestFixture.changeStreamParallelism;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -82,7 +81,7 @@ public class J07b_StreamReduceTest {
         final List<Integer> input = Arrays.asList(4, 2, 6, 3, 8, 1);
 
         //when
-        final int max = 0;  //input.stream()...
+        final int max = input.stream().reduce(Integer.MIN_VALUE, Math::max);
 
         //then
         assertThat(max).isEqualTo(8);
@@ -96,7 +95,18 @@ public class J07b_StreamReduceTest {
         Stream<Integer> stream = changeStreamParallelism(input.stream(), requestedParallelism);
 
         //when
-        final List<Integer> doubledPrimes = null;   //stream.
+        final List<Integer> doubledPrimes = input.stream()
+                .reduce(List.of(),
+                        (list, x) -> {
+                            List<Integer> resultList = new ArrayList<>(list);
+                            resultList.add(x * 2);
+                            return resultList;
+                        },
+                        (list1, list2) -> {
+                            List<Integer> resultList = new ArrayList<>(list1);
+                            resultList.addAll(list2);
+                            return resultList;
+                        });
 
         //then
         assertThat(doubledPrimes).containsExactly(2 * 2, 3 * 2, 5 * 2, 7 * 2);
@@ -110,7 +120,21 @@ public class J07b_StreamReduceTest {
         Stream<Integer> stream = changeStreamParallelism(input.stream(), requestedParallelism);
 
         //when
-        final List<Integer> onlyEvenNumbers = null;   //stream.
+        final List<Integer> onlyEvenNumbers = stream
+                .reduce(List.of(),
+                        (list, x) -> {
+                            if (x % 2 == 0) {
+                                List<Integer> resultList = new ArrayList<>(list);
+                                resultList.add(x);
+                                return resultList;
+                            }
+                            return list;
+                        },
+                        (list1, list2) -> {
+                            List<Integer> resultList = new ArrayList<>(list1);
+                            resultList.addAll(list2);
+                            return resultList;
+                        });
 
         //then
         assertThat(onlyEvenNumbers).containsExactly(2, 4, 6);

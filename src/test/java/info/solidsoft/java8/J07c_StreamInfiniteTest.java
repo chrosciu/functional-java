@@ -4,6 +4,7 @@ import info.solidsoft.java8.util.PrimeUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
@@ -58,7 +59,7 @@ public class J07c_StreamInfiniteTest {
     @Test
     public void shouldCalculateProductOfFirstFivePrimes() {
         //given
-        LongStream primes = LongStream.iterate(2, null);
+        LongStream primes = LongStream.iterate(2, PrimeUtil::nextPrimeAfter);
 
         //when
         final long product = primes.limit(5).reduce(1, (acc, x) -> acc * x);
@@ -70,10 +71,10 @@ public class J07c_StreamInfiniteTest {
     @Test
     public void shouldGenerateGrowingStrings() {
         //given
-        final Stream<String> starStream = Stream.iterate("", null);
+        final Stream<String> starStream = Stream.iterate("", s -> s + "*");
 
         //when
-        List<String> strings = null;
+        List<String> strings = starStream.limit(7).collect(Collectors.toList());
 
         //then
         assertThat(strings).containsExactly(
@@ -99,10 +100,15 @@ public class J07c_StreamInfiniteTest {
     @Test
     public void shouldEstimatePi() {
         //given
-        Stream<Point> randomPoints = null;
+        Stream<Point> randomPoints = Stream.generate(Point::random);
+        final long numberOfPoints = 1_000_000;
 
         //when
-        final double piDividedByFour = 0;
+        final double piDividedByFour = randomPoints
+                .limit(numberOfPoints)
+                .map(Point::distance)
+                .filter(d -> d <= 1.0)
+                .count() / (double)numberOfPoints;
 
         //then
         assertThat(piDividedByFour * 4).isCloseTo(Math.PI, offset(0.01));

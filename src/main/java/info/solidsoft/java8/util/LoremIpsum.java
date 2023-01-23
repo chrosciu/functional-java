@@ -26,7 +26,8 @@ public class LoremIpsum {
     }
 
     public static Map<String, Integer> wordCount(String text) {
-        throw new UnsupportedOperationException("wordCount()");
+        return splitWords(text).stream()
+                .collect(Collectors.groupingBy(String::toLowerCase, Collectors.summingInt(e -> 1)));
     }
 
     private static List<String> splitWords(String text) {

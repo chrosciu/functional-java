@@ -2,11 +2,14 @@ package info.solidsoft.java8;
 
 import info.solidsoft.java8.people.Person;
 import info.solidsoft.java8.people.PersonDao;
+import info.solidsoft.java8.people.Sex;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -36,7 +39,9 @@ public class J08_FilesTest {
         //Hint: Modify stream processing to get names sorted - does operation order matter?
         final List<String> names = people.stream()
                 .map(Person::getName)
+                //.sorted(Comparator.naturalOrder()) //also works but is less efficient
                 .distinct()
+                .sorted(Comparator.naturalOrder())
                 .collect(toList());
 
         assertThat(names).startsWith("Aleksandar", "Alexander", "Alexandra", "Ali", "Alice");
@@ -50,6 +55,8 @@ public class J08_FilesTest {
         final List<Person> people = dao.loadPeopleDatabase();
 
         final List<String> names = people.stream()
+                .filter(person -> Sex.FEMALE == person.getSex())
+                .sorted(Comparator.comparingInt(Person::getHeight).reversed())
                 .map(Person::getName)
                 .collect(toList());
 
@@ -61,6 +68,7 @@ public class J08_FilesTest {
         final List<Person> people = dao.loadPeopleDatabase();
 
         final List<String> names = people.stream()
+                .sorted(Comparator.comparing(Person::getName).thenComparing(Person::getDateOfBirth))
                 .map(p -> p.getName() + '-' + p.getDateOfBirth().getYear())
                 .collect(toList());
 
@@ -89,7 +97,11 @@ public class J08_FilesTest {
     }
 
     private static Stream<Path> filesInDir(Path dir) {
-        throw new UnsupportedOperationException("filesInDir()");
+        try {
+            return Files.list(dir).flatMap(path -> Files.isDirectory(path) ? filesInDir(path) : Stream.of(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
