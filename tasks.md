@@ -18,5 +18,8 @@
 | J08_NewMapMethodsTest              | Map interface methods: merge and compute, streams from Map        |
 | J09_CollectorsTest                 | Collectors: grouping, partitioning, average, summarizingInt       |
 | J09_StringsTest                    | Obtaining char stream from String, predicates in Character class  |
+| J09a_CustomCollectorTest           | Custom collector implementation - sequential and parallel         |
+| J09b_SpliteratorTest               | Spliterators - from Iterable and custom implementation            |
+
 
 
