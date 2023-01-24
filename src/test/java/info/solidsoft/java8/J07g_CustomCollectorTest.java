@@ -2,6 +2,7 @@ package info.solidsoft.java8;
 
 import info.solidsoft.java8.payments.Payment;
 import info.solidsoft.java8.payments.PaymentStatus;
+import info.solidsoft.java8.payments.PaymentsCollector;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -34,7 +35,7 @@ public class J07g_CustomCollectorTest {
                 new Payment(700, FAILED),
                 new Payment(800, CANCELLED));
         Map<PaymentStatus, Payment> singlePaymentOfType = payments
-                .collect(null);  //.collect(new PaymentsCollector(STARTED, SUCCEEDED))
+                .collect(new PaymentsCollector(STARTED, SUCCEEDED));
 
         assertThat(singlePaymentOfType)
                 .containsOnly(
@@ -46,10 +47,10 @@ public class J07g_CustomCollectorTest {
     @Test
     public void shouldWorkInParallel() {
         Map<PaymentStatus, Payment> sequential = payments(1000)
-                .collect(null); //.collect(new PaymentsCollector(STARTED, SUCCEEDED))
+                .collect(new PaymentsCollector(STARTED, SUCCEEDED));
         Map<PaymentStatus, Payment> parallel = payments(1000)
                 .parallel()
-                .collect(null); //.collect(new PaymentsCollector(STARTED, SUCCEEDED))
+                .collect(new PaymentsCollector(STARTED, SUCCEEDED));
 
         assertThat(parallel).isEqualTo(sequential);
     }
