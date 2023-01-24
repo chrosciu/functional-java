@@ -3,6 +3,7 @@ package info.solidsoft.java8;
 import info.solidsoft.java8.people.Person;
 import info.solidsoft.java8.people.PersonDao;
 import info.solidsoft.java8.people.Sex;
+import info.solidsoft.java8.util.FilesSpliterator;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
@@ -49,7 +50,7 @@ public class J09b_SpliteratorTest {
     }
 
     private static Stream<Path> filesInDir(Path dir) {
-        return null; //StreamSupport.stream...
+        return StreamSupport.stream(new FilesSpliterator(dir), false);
     }
 
 }
