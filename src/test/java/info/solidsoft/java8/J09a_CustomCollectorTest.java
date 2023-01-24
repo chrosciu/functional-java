@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Hint: Start from sequential version, add parallel one later.
  *
  */
-public class J07g_CustomCollectorTest {
+public class J09a_CustomCollectorTest {
 
     @Test
     public void shouldCollectSinglePaymentOfRequestedTypes() {
