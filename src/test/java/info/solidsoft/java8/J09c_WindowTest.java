@@ -1,10 +1,14 @@
 package info.solidsoft.java8;
 
+import info.solidsoft.java8.window.WindowCollector;
+import info.solidsoft.java8.window.WindowSpliterator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Spliterator;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class J09c_WindowTest {
 
@@ -59,11 +63,16 @@ public class J09c_WindowTest {
     }
 
     private static <T> List<List<T>> windowList(Stream<T> stream, int size, int step) {
-        return null;
+        //return windowStream(stream, size, step).collect(Collectors.toList());
+
+        WindowCollector<T> collector = new WindowCollector<>(size, step);
+        return stream.collect(collector);
     }
 
     private static <T> Stream<List<T>> windowStream(Stream<T> stream, int size, int step) {
-        return null;
+        Spliterator<T> spliterator = stream.spliterator();
+        Spliterator<List<T>> wrapper = new WindowSpliterator<>(spliterator, size, step);
+        return StreamSupport.stream(wrapper, false);
     }
 
 }
