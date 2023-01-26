@@ -55,4 +55,18 @@ public class J07f_StreamsAntiPatternsTest {
         assertThat(savedPeople).isEmpty();
     }
 
+    @Test
+    public void shouldReflectChangingInBackingCollection() {
+        //given
+        List<Person> peopleList = new ArrayList<>();
+        peopleList.add(MARCIN);
+        Stream<Person> people = peopleList.stream();
+
+        //when
+        peopleList.add(MAJA);
+
+        //then
+        assertThat(people).contains(MARCIN, MAJA);
+    }
+
 }
