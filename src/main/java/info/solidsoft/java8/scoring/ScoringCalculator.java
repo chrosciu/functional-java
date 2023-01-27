@@ -9,7 +9,7 @@ public class ScoringCalculator {
     public static ScoringMapper getScoringMapper(Person person, ScoringRule... rules) {
         return (loan, initialScoring) -> {
             Stream<ScoringRule> ruleStream = Arrays.stream(rules);
-            ScoringRule scoringRule = ruleStream.reduce(ScoringRule.identity(), ScoringRule::composed);
+            ScoringRule scoringRule = ruleStream.reduce(ScoringRule.IDENTITY, ScoringRule::composed);
             System.out.println("Scoring before: " + initialScoring);
             double scoring = scoringRule.adjustScoring(person, loan, initialScoring);
             System.out.println("Scoring after: " + scoring);

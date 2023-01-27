@@ -15,7 +15,5 @@ public interface ScoringRule {
         return after.compose(before);
     }
 
-    static ScoringRule identity() {
-        return (person, loan, initialScoring) -> initialScoring;
-    }
+    ScoringRule IDENTITY = (person, loan, initialScoring) -> initialScoring;
 }
