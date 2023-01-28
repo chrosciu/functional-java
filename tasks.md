@@ -13,6 +13,7 @@
 | J07b_StreamReduceTest              | Regular and mutable reduction, map and filter emulation           |
 | J07c_StreamInfiniteTest            | Infinite streams - construction and usge, PI calculation :)       |
 | J07f_StreamsAntiPatternsTest       | Common anti-patterns for basic Stream API usage                   |
+| J07g_ParallelStreamPerformanceTest | Comparison of performance between sequential and parallel streams |
 | J08_FilesTest                      | Obtaining stream from BufferedReader, Comparator implementations  |
 | J08_LocalDateTest                  | Date API, infinite streams                                        |
 | J08_NewMapMethodsTest              | Map interface methods: merge and compute, streams from Map        |
@@ -20,6 +21,7 @@
 | J09_StringsTest                    | Obtaining char stream from String, predicates in Character class  |
 | J09a_CustomCollectorTest           | Custom collector implementation - sequential and parallel         |
 | J09b_SpliteratorTest               | Spliterators - from Iterable and custom implementation            |
+| J09c_WindowTest                    | Sliding window operator test - for finite and infinite streams    |
 
 
 
