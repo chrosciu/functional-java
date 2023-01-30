@@ -1,9 +1,9 @@
 package info.solidsoft.java8.scoring;
 
-import java.util.List;
-
 import lombok.Builder;
 import lombok.Singular;
+
+import java.util.List;
 
 @Builder
 public class DynamicCalculator {
@@ -12,11 +12,11 @@ public class DynamicCalculator {
     public List<Rule> rules;
 
     public Scoring calculate(Person person, LoanApplication application) {
-        //when
         Scoring scoring = new Scoring(100);
-        for (Rule rule : rules) {
-            scoring = rule.apply(scoring, person, application);
-        }
-        return scoring;
+        Rule composedRule = rules.stream().reduce(Rule.IDENTITY, (before, after) -> after.compose(before));
+//        for (Rule rule : rules) {
+//            scoring = rule.apply(scoring, person, application);
+//        }
+        return composedRule.apply(scoring, person, application);
     }
 }

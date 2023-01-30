@@ -51,7 +51,15 @@ public class J04_FunctionalInterfacesTest {
     @SuppressWarnings("ComparatorCombinators")
     @Test
     public void testComparatorLambda() {
-        final Comparator<String> strLenComparator = null;
+//        final Comparator<String> strLenComparator = new Comparator<String>() {
+//            @Override
+//            public int compare(String o1, String o2) {
+//                return o1.length() - o2.length();
+//            }
+//        };
+        final Comparator<String> strLenComparator = Comparator.nullsFirst(Comparator.comparing(String::length));
+//        final Comparator<String> strLenComparator = Comparator.comparingInt(String::length);
+
 
         assertThat(strLenComparator.compare("abc", "def")).isZero();
         assertThat(strLenComparator.compare("abc", "defg")).isLessThan(0);
