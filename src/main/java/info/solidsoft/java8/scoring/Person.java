@@ -15,6 +15,12 @@ public class Person {
     String lastName;
     Sex sex;
     int age;
+    Occupation occupation;
+    Color hairColor;
+
+    public boolean isBold() {
+        return hairColor == null;
+    }
     double heightMeters;
     double weightKg;
     String occupation;
