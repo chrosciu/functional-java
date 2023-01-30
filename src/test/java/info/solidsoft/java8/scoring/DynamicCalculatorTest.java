@@ -19,11 +19,11 @@ class DynamicCalculatorTest {
         //given
         Person p1 = Person.builder()
                 .age(32)
-                .weight(250)
+                .weightKg(250)
                 .sex(Sex.MALE)
                 .firstName("Pawel")
                 .lastName("T")
-                .height(1.96)
+                .heightMeters(1.96)
                 .build();
 
         LoanApplication loanApplication = new LoanApplication(30, 100_000);

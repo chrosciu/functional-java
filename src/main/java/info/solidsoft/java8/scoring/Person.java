@@ -1,12 +1,12 @@
 package info.solidsoft.java8.scoring;
 
-import info.solidsoft.java8.people.Sex;
-import lombok.Builder;
-import lombok.Value;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import info.solidsoft.java8.people.Sex;
+import lombok.Builder;
+import lombok.Value;
 
 @Builder
 @Value
@@ -21,9 +21,9 @@ public class Person {
     public boolean isBold() {
         return hairColor == null;
     }
+
     double heightMeters;
     double weightKg;
-    String occupation;
     List<LoanHistory> pastLoans;
     BikCheckResult bik;
 
