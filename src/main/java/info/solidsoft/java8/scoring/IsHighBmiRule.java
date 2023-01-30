@@ -9,8 +9,8 @@ public class IsHighBmiRule implements Rule {
     public static IsHighBmiRule INSTANCE = new IsHighBmiRule();
 
     @Override
-    public Scoring apply(Scoring scoring, Person person, LoanApplication loanApplication) {
-        return loanApplication.getYears() > 5 && calculateBmi(person) > 25 ? scoring.toBuilder().scoring(scoring.getScoring() - 5).build() : scoring;
+    public Scoring apply(PositiveScoring scoring, Person person, LoanApplication loanApplication) {
+        return loanApplication.getYears() > 5 && calculateBmi(person) > 25 ? PositiveScoring.of(scoring.getScoring() - 5) : scoring;
     }
 
     private double calculateBmi(Person person) {

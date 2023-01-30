@@ -10,12 +10,12 @@ public class IsHighRiskRule implements Rule {
     public static IsHighRiskRule INSTANCE = new IsHighRiskRule();
 
     @Override
-    public Scoring apply(Scoring scoring, Person person, LoanApplication loanApplication) {
+    public Scoring apply(PositiveScoring scoring, Person person, LoanApplication loanApplication) {
 
         int over = yearsOver(person, loanApplication);
 
         if (over > 0) {
-            return scoring.toBuilder().scoring(scoring.getScoring() - over).build();
+            return PositiveScoring.of(scoring.getScoring() - over);
         }
         return scoring;
     }

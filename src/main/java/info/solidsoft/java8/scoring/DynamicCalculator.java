@@ -12,11 +12,8 @@ public class DynamicCalculator {
     public List<Rule> rules;
 
     public Scoring calculate(Person person, LoanApplication application) {
-        Scoring scoring = new Scoring(100);
+        PositiveScoring initialScoring = PositiveScoring.of(100);
         Rule composedRule = rules.stream().reduce(Rule.IDENTITY, (before, after) -> after.compose(before));
-//        for (Rule rule : rules) {
-//            scoring = rule.apply(scoring, person, application);
-//        }
-        return composedRule.apply(scoring, person, application);
+        return composedRule.apply(initialScoring, person, application);
     }
 }

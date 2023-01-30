@@ -1,15 +1,15 @@
 package info.solidsoft.java8.scoring;
 
-import java.util.Arrays;
-
 import info.solidsoft.java8.people.Sex;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 class DynamicCalculatorTest {
 
@@ -37,7 +37,7 @@ class DynamicCalculatorTest {
                 .calculate(p1, loanApplication);
 
         //then
-        Scoring expected = new Scoring(46.5);
+        Scoring expected = PositiveScoring.of(46.5);
         assertThat(scoring).isEqualTo(expected);
     }
 
@@ -58,14 +58,18 @@ class DynamicCalculatorTest {
                 .build()
                 .calculate(person, loanApplication);
 
-        verify(rule1).apply(any(Scoring.class), any(Person.class), any(LoanApplication.class));
-        verify(rule1).apply(any(Scoring.class), any(Person.class), any(LoanApplication.class));
-        verify(rule2).apply(any(Scoring.class), any(Person.class), any(LoanApplication.class));
+        verify(rule1).apply(any(PositiveScoring.class), any(Person.class), any(LoanApplication.class));
+        verify(rule2).apply(any(PositiveScoring.class), any(Person.class), any(LoanApplication.class));
+        verify(rule3).apply(any(PositiveScoring.class), any(Person.class), any(LoanApplication.class));
     }
 
     private Rule getRule(double score, String name) {
-        Rule rule1 = mock(Rule.class, name);
-        when(rule1.apply(any(Scoring.class), any(Person.class), any(LoanApplication.class))).thenReturn(Scoring.of(score));
-        return rule1;
+        Rule rule = new Rule() {
+            @Override
+            public Scoring apply(PositiveScoring scoring, Person person, LoanApplication loanApplication) {
+                return PositiveScoring.of(score);
+            }
+        };
+        return Mockito.spy(rule);
     }
 }

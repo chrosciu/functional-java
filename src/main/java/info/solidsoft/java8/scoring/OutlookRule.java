@@ -11,10 +11,10 @@ public class OutlookRule implements Rule {
     public static OutlookRule INSTANCE = new OutlookRule();
 
     @Override
-    public Scoring apply(Scoring scoring, Person person, LoanApplication loanApplication) {
+    public Scoring apply(PositiveScoring scoring, Person person, LoanApplication loanApplication) {
 
         if (person.getHairColor() == GINGER || person.isBold()) {
-            return scoring.toBuilder().scoring(scoring.getScoring() * 0.5).build();
+            return PositiveScoring.of(scoring.getScoring() * 0.5);
         } else {
             return scoring;
         }

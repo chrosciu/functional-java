@@ -9,9 +9,9 @@ public class IsDev implements Rule {
     public static IsDev INSTANCE = new IsDev();
 
     @Override
-    public Scoring apply(Scoring scoring, Person person, LoanApplication loanApplication) {
+    public Scoring apply(PositiveScoring scoring, Person person, LoanApplication loanApplication) {
         if("DEV".equals(person.getOccupation())) {
-            return scoring.withScoring(scoring.getScoring() * 2);
+            return PositiveScoring.of(scoring.getScoring() * 2);
         }
         return scoring;
     }

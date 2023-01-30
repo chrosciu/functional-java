@@ -14,7 +14,7 @@ public class IsFemaleRuleTest {
     public void shouldCalculate() {
 
         //given
-        Scoring sco = Scoring.builder().scoring(100).build();
+        PositiveScoring sco = PositiveScoring.of(100);
 
         Person person = Person.builder().sex(Sex.FEMALE).build();
 
@@ -25,6 +25,6 @@ public class IsFemaleRuleTest {
         Scoring scoring = sut.apply(sco, person, loan);
 
         //then
-        assertThat(scoring.getScoring()).isEqualTo(120);
+        assertThat(((PositiveScoring)scoring).getScoring()).isEqualTo(120);
     }
 }

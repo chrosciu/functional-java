@@ -10,7 +10,7 @@ public class IsFemaleRule implements Rule {
     public static IsFemaleRule INSTANCE = new IsFemaleRule();
 
     @Override
-    public Scoring apply(Scoring scoring, Person person, LoanApplication loanApplication) {
-        return person.getSex() == Sex.FEMALE ? scoring.toBuilder().scoring(scoring.getScoring() * 1.2).build() : scoring;
+    public Scoring apply(PositiveScoring scoring, Person person, LoanApplication loanApplication) {
+        return person.getSex() == Sex.FEMALE ? PositiveScoring.of(scoring.getScoring() * 1.2) : scoring;
     }
 }
