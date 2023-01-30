@@ -4,7 +4,6 @@ import lombok.Value;
 
 @Value
 public class LoanApplication {
-
     int years;
     int amount;
 }

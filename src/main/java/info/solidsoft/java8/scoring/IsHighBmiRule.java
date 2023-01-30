@@ -14,6 +14,6 @@ public class IsHighBmiRule implements Rule {
     }
 
     private double calculateBmi(Person person) {
-        return person.getWeight() / Math.pow(person.getHeight(), 2);
+        return person.getWeightKg() / Math.pow(person.getHeightMeters(), 2);
     }
 }

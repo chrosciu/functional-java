@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class IsFemaleRuleTest {
 
-    private IsFemaleRule sut = new IsFemaleRule();
+    private IsFemaleRule sut = IsFemaleRule.INSTANCE;
 
     @Test
     public void shouldCalculate() {
