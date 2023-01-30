@@ -13,4 +13,5 @@ public class Person {
     int age;
     double heightMeters;
     double weightKg;
+    String occupation;
 }
