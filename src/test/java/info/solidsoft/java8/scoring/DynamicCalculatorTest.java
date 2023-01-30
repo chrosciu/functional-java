@@ -48,8 +48,8 @@ class DynamicCalculatorTest {
         LoanApplication loanApplication = mock(LoanApplication.class);
 
         Rule rule1 = getRule(100, "rule1");
-        Rule rule2 = getRule(100, "rule1");
-        Rule rule3 = getRule(100, "rule1");
+        Rule rule2 = getRule(100, "rule2");
+        Rule rule3 = getRule(100, "rule3");
 
         DynamicCalculator.builder()
                 .rule(rule1)
