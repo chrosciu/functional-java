@@ -1,5 +1,6 @@
 package info.solidsoft.java8;
 
+import info.solidsoft.java8.util.LoremIpsum;
 import info.solidsoft.java8.window.WindowCollector;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -50,6 +51,19 @@ public class J09c_WindowTest {
                 List.of("E", "F", "G"),
                 List.of("G", "H", "I")
         );
+    }
+
+    @Test
+    public void shouldDisplayMatchingWordWithPredecessorsAndSuccessors() throws Exception {
+        //given
+        Stream<String> words = LoremIpsum.splitWords(LoremIpsum.text()).stream();
+
+        Stream<List<String>> matchingWindows = windowStream(words, 4, 1)
+                .filter(window -> window.get(2).contains("q"));
+
+        matchingWindows.forEach(window -> System.out.println(String.format("%s %s %s %s",
+                window.get(0), window.get(1), window.get(2), window.get(3))));
+
     }
 
     private static Stream<String> inifiniteLettersStream() {

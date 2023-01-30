@@ -30,7 +30,7 @@ public class LoremIpsum {
                 .collect(Collectors.groupingBy(String::toLowerCase, Collectors.summingInt(e -> 1)));
     }
 
-    private static List<String> splitWords(String text) {
+    public static List<String> splitWords(String text) {
         return Splitter
                 .on(anyOf(" .,\n"))
                 .trimResults()
