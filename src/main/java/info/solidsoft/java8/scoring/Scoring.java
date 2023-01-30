@@ -10,4 +10,8 @@ import lombok.With;
 public class Scoring {
 
     double scoring;
+
+    public static Scoring of(double scoring) {
+        return new Scoring(scoring);
+    }
 }
