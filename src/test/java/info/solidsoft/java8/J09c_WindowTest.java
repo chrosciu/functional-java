@@ -28,6 +28,24 @@ public class J09c_WindowTest {
     }
 
     @Test
+    public void shouldCreateTupleListFromFiniteStream() {
+        Stream<String> stream = finiteLettersStream(10);
+
+        List<List<String>> windows = tupleList(stream, 3);
+
+        Assertions.assertThat(windows).containsExactly(
+                List.of("A", "B", "C"),
+                List.of("B", "C", "D"),
+                List.of("C", "D", "E"),
+                List.of("D", "E", "F"),
+                List.of("E", "F", "G"),
+                List.of("F", "G", "H"),
+                List.of("G", "H", "I"),
+                List.of("H", "I", "J")
+        );
+    }
+
+    @Test
     public void shouldCreateWindowListFromFiniteStream() {
         Stream<String> stream = finiteLettersStream(10);
 
@@ -78,6 +96,10 @@ public class J09c_WindowTest {
     }
 
     private static <T> List<List<T>> pairList(Stream<T> stream) {
+        return null;
+    }
+
+    private static <T> List<List<T>> tupleList(Stream<T> stream, int size) {
         return null;
     }
 
