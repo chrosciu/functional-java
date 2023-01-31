@@ -9,6 +9,25 @@ import java.util.stream.Stream;
 public class J09c_WindowTest {
 
     @Test
+    public void shouldCreatePairListFromFiniteStream() {
+        Stream<String> stream = finiteLettersStream(10);
+
+        List<List<String>> windows = pairList(stream);
+
+        Assertions.assertThat(windows).containsExactly(
+                List.of("A", "B"),
+                List.of("B", "C"),
+                List.of("C", "D"),
+                List.of("D", "E"),
+                List.of("E", "F"),
+                List.of("F", "G"),
+                List.of("G", "H"),
+                List.of("H", "I"),
+                List.of("I", "J")
+        );
+    }
+
+    @Test
     public void shouldCreateWindowListFromFiniteStream() {
         Stream<String> stream = finiteLettersStream(10);
 
@@ -56,6 +75,10 @@ public class J09c_WindowTest {
 
     private static Stream<String> finiteLettersStream(int n) {
         return inifiniteLettersStream().limit(n);
+    }
+
+    private static <T> List<List<T>> pairList(Stream<T> stream) {
+        return null;
     }
 
     private static <T> List<List<T>> windowList(Stream<T> stream, int size, int step) {
