@@ -1,9 +1,9 @@
 package info.solidsoft.java8.scoring;
 
-import java.util.Arrays;
-
 import info.solidsoft.java8.people.Sex;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -14,7 +14,7 @@ import static org.mockito.Mockito.when;
 class DynamicCalculatorTest {
 
     @Test
-    public void should() {
+    public void shouldCalculateScoringAccordingToRules() {
 
         //given
         Person p1 = Person.builder()
