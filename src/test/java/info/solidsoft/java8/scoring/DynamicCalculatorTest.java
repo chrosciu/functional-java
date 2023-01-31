@@ -4,6 +4,7 @@ import info.solidsoft.java8.people.Sex;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,13 +29,12 @@ class DynamicCalculatorTest {
 
         LoanApplication loanApplication = new LoanApplication(30, 100_000);
 
-        Scoring scoring = DynamicCalculator.builder()
-                .rule(IsFemaleRule.INSTANCE)
-                .rule(IsHighRiskRule.INSTANCE)
-                .rule(IsHighBmiRule.INSTANCE)
-                .rule(OutlookRule.INSTANCE)
-                .rule(new HasStableJobRule(Arrays.asList(Occupation.IT_GUY, Occupation.DOCTOR))).build()
-                .calculate(p1, loanApplication);
+        List<Rule> rules = List.of(IsFemaleRule.INSTANCE,
+                IsHighRiskRule.INSTANCE,
+                IsHighBmiRule.INSTANCE,
+                OutlookRule.INSTANCE,
+                new HasStableJobRule(Arrays.asList(Occupation.IT_GUY, Occupation.DOCTOR)));
+        Scoring scoring =  new DynamicCalculator().calculate(p1, loanApplication, rules);
 
         //then
         Scoring expected = new Scoring(46.5);
@@ -51,12 +51,9 @@ class DynamicCalculatorTest {
         Rule rule2 = getRule(100, "rule2");
         Rule rule3 = getRule(100, "rule3");
 
-        DynamicCalculator.builder()
-                .rule(rule1)
-                .rule(rule2)
-                .rule(rule3)
-                .build()
-                .calculate(person, loanApplication);
+        List<Rule> rules = List.of(rule1, rule2, rule3);
+
+        new DynamicCalculator().calculate(person, loanApplication, rules);
 
         verify(rule1).apply(any(Scoring.class), any(Person.class), any(LoanApplication.class));
         verify(rule1).apply(any(Scoring.class), any(Person.class), any(LoanApplication.class));
